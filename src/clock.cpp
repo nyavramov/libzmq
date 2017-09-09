@@ -6,24 +6,24 @@
     libzmq is free software; you can redistribute it and/or modify it under
     the terms of the GNU Lesser General Public License (LGPL) as published
     by the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
+	(at your option) any later version.
 
-    As a special exception, the Contributors give you permission to link
-    this library with independent modules to produce an executable,
+	As a special exception, the Contributors give you permission to link
+	this library with independent modules to produce an executable,
     regardless of the license terms of these independent modules, and to
-    copy and distribute the resulting executable under terms of your choice,
-    provided that you also meet, for each linked independent module, the
-    terms and conditions of the license of that module. An independent
-    module is a module which is not derived from or based on this library.
-    If you modify this library, you must extend this exception to your
-    version of the library.
+	copy and distribute the resulting executable under terms of your choice,
+	provided that you also meet, for each linked independent module, the
+	terms and conditions of the license of that module. An independent
+	module is a module which is not derived from or based on this library.
+	If you modify this library, you must extend this exception to your
+	version of the library.
 
-    libzmq is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+	libzmq is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+	FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
     License for more details.
 
-    You should have received a copy of the GNU Lesser General Public License
+	You should have received a copy of the GNU Lesser General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -64,7 +64,7 @@ int alt_clock_gettime (int clock_id, timespec *ts)
     mach_timespec_t mts;
     host_get_clock_service (mach_host_self (), clock_id, &cclock);
     clock_get_time (cclock, &mts);
-    mach_port_deallocate (mach_task_self (), cclock);
+	mach_port_deallocate (mach_task_self (), cclock);
     ts->tv_sec = mts.tv_sec;
     ts->tv_nsec = mts.tv_nsec;
     return 0;
@@ -121,7 +121,7 @@ static f_compatible_get_tick_count64 my_get_tick_count64 = init_compatible_get_t
 #endif
 
 zmq::clock_t::clock_t () :
-    last_tsc (rdtsc ()),
+	last_tsc (rdtsc ()),
 #ifdef ZMQ_HAVE_WINDOWS
     last_time (static_cast<uint64_t>((*my_get_tick_count64)()))
 #else
@@ -159,7 +159,7 @@ uint64_t zmq::clock_t::now_us ()
 #if defined ZMQ_HAVE_OSX && __MAC_OS_X_VERSION_MIN_REQUIRED < 101200 // less than macOS 10.12
     int rc = alt_clock_gettime (SYSTEM_CLOCK, &tv);
 #else
-    int rc = clock_gettime (CLOCK_MONOTONIC, &tv);
+	int rc = clock_gettime (CLOCK_MONOTONIC, &tv);
 #endif
     // Fix case where system has clock_gettime but CLOCK_MONOTONIC is not supported.
     // This should be a configuration check, but I looked into it and writing an
@@ -196,13 +196,13 @@ uint64_t zmq::clock_t::now_ms ()
     if (!tsc)
     {
 #ifdef ZMQ_HAVE_WINDOWS
-        // Under Windows, now_us is not so reliable since QueryPerformanceCounter
+		// Under Windows, now_us is not so reliable since QueryPerformanceCounter
         // does not guarantee that it will use a hardware that offers a monotonic timer.
         // So, lets use GetTickCount when GetTickCount64 is not available with an workaround
         // to its 32 bit limitation.
         return static_cast<uint64_t>((*my_get_tick_count64)());
 #else
-        return now_us () / 1000;
+		return now_us () / 1000;
 #endif
     }
 
@@ -212,7 +212,7 @@ uint64_t zmq::clock_t::now_ms ()
     if (likely (tsc - last_tsc <= (clock_precision / 2) && tsc >= last_tsc))
         return last_time;
 
-    last_tsc = tsc;
+	last_tsc = tsc;
 #ifdef ZMQ_HAVE_WINDOWS
     last_time = static_cast<uint64_t>((*my_get_tick_count64)());
 #else
@@ -224,30 +224,31 @@ uint64_t zmq::clock_t::now_ms ()
 uint64_t zmq::clock_t::rdtsc ()
 {
 #if (defined _MSC_VER && (defined _M_IX86 || defined _M_X64))
-    return __rdtsc ();
-#elif (defined __GNUC__ && (defined __i386__ || defined __x86_64__))
-    uint32_t low, high;
-    __asm__ volatile ("rdtsc" : "=a" (low), "=d" (high));
-    return (uint64_t) high << 32 | low;
+	return __rdtsc ();
+#elif ((defined __GNUC__ || defined __CODEGEARC__) && (defined __i386__ || \
+	defined __x86_64__))
+	uint32_t low, high;
+	__asm__ volatile ("rdtsc" : "=a" (low), "=d" (high));
+	return (uint64_t) high << 32 | low;
 #elif (defined __SUNPRO_CC && (__SUNPRO_CC >= 0x5100) && (defined __i386 || \
-    defined __amd64 || defined __x86_64))
-    union {
-        uint64_t u64val;
-        uint32_t u32val [2];
-    } tsc;
-    asm("rdtsc" : "=a" (tsc.u32val [0]), "=d" (tsc.u32val [1]));
-    return tsc.u64val;
+	defined __amd64 || defined __x86_64))
+	union {
+		uint64_t u64val;
+		uint32_t u32val [2];
+	} tsc;
+	asm("rdtsc" : "=a" (tsc.u32val [0]), "=d" (tsc.u32val [1]));
+	return tsc.u64val;
 #elif defined(__s390__)
-    uint64_t tsc;
-    asm("\tstck\t%0\n" : "=Q" (tsc) : : "cc");
-    return(tsc);
+	uint64_t tsc;
+	asm("\tstck\t%0\n" : "=Q" (tsc) : : "cc");
+	return(tsc);
 #else
-    struct timespec ts;
-    #if defined ZMQ_HAVE_OSX && __MAC_OS_X_VERSION_MIN_REQUIRED < 101200 // less than macOS 10.12
-        alt_clock_gettime (SYSTEM_CLOCK, &ts);
-    #else
-        clock_gettime (CLOCK_MONOTONIC, &ts);
-    #endif
-    return (uint64_t)(ts.tv_sec) * 1000000000 + ts.tv_nsec;
+	struct timespec ts;
+	#if defined ZMQ_HAVE_OSX && __MAC_OS_X_VERSION_MIN_REQUIRED < 101200 // less than macOS 10.12
+		alt_clock_gettime (SYSTEM_CLOCK, &ts);
+	#else
+		clock_gettime (CLOCK_MONOTONIC, &ts);
+	#endif
+	return (uint64_t)(ts.tv_sec) * 1000000000 + ts.tv_nsec;
 #endif
 }
