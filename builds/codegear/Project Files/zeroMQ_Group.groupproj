@@ -1,0 +1,120 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{28605699-D30A-480D-B3BE-E5A63881C618}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="libzmq.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="libzmq_dll.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="inproc_lat.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="inproc_thr.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="local_lat.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="local_thr.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="remote_lat.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="remote_thr.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="libzmq">
+        <MSBuild Projects="libzmq.cbproj"/>
+    </Target>
+    <Target Name="libzmq:Clean">
+        <MSBuild Projects="libzmq.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="libzmq:Make">
+        <MSBuild Projects="libzmq.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="libzmq_dll">
+        <MSBuild Projects="libzmq_dll.cbproj"/>
+    </Target>
+    <Target Name="libzmq_dll:Clean">
+        <MSBuild Projects="libzmq_dll.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="libzmq_dll:Make">
+        <MSBuild Projects="libzmq_dll.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="inproc_lat">
+        <MSBuild Projects="inproc_lat.cbproj"/>
+    </Target>
+    <Target Name="inproc_lat:Clean">
+        <MSBuild Projects="inproc_lat.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="inproc_lat:Make">
+        <MSBuild Projects="inproc_lat.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="inproc_thr">
+        <MSBuild Projects="inproc_thr.cbproj"/>
+    </Target>
+    <Target Name="inproc_thr:Clean">
+        <MSBuild Projects="inproc_thr.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="inproc_thr:Make">
+        <MSBuild Projects="inproc_thr.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="local_lat">
+        <MSBuild Projects="local_lat.cbproj"/>
+    </Target>
+    <Target Name="local_lat:Clean">
+        <MSBuild Projects="local_lat.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="local_lat:Make">
+        <MSBuild Projects="local_lat.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="local_thr">
+        <MSBuild Projects="local_thr.cbproj"/>
+    </Target>
+    <Target Name="local_thr:Clean">
+        <MSBuild Projects="local_thr.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="local_thr:Make">
+        <MSBuild Projects="local_thr.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="remote_lat">
+        <MSBuild Projects="remote_lat.cbproj"/>
+    </Target>
+    <Target Name="remote_lat:Clean">
+        <MSBuild Projects="remote_lat.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="remote_lat:Make">
+        <MSBuild Projects="remote_lat.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="remote_thr">
+        <MSBuild Projects="remote_thr.cbproj"/>
+    </Target>
+    <Target Name="remote_thr:Clean">
+        <MSBuild Projects="remote_thr.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="remote_thr:Make">
+        <MSBuild Projects="remote_thr.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="libzmq;libzmq_dll;inproc_lat;inproc_thr;local_lat;local_thr;remote_lat;remote_thr"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="libzmq:Clean;libzmq_dll:Clean;inproc_lat:Clean;inproc_thr:Clean;local_lat:Clean;local_thr:Clean;remote_lat:Clean;remote_thr:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="libzmq:Make;libzmq_dll:Make;inproc_lat:Make;inproc_thr:Make;local_lat:Make;local_thr:Make;remote_lat:Make;remote_thr:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
