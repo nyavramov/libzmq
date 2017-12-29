@@ -8,7 +8,4 @@
 #define ZMQ_USE_SELECT
 #define FD_SETSIZE 1024
 
-#pragma comment(lib,"ws2_32.lib")
-#pragma comment(lib,"Iphlpapi.lib")
-
 #endif
