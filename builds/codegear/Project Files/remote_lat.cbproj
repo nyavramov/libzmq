@@ -119,10 +119,6 @@
             <BuildOrder>4</BuildOrder>
             <IgnorePath>true</IgnorePath>
         </LibFiles>
-        <PCHCompile Include="remote_latPCH1.h">
-            <BuildOrder>0</BuildOrder>
-            <PCH>true</PCH>
-        </PCHCompile>
         <CppCompile Include="..\..\..\perf\remote_lat.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>

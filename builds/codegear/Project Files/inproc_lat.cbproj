@@ -120,10 +120,6 @@
             <BuildOrder>3</BuildOrder>
             <IgnorePath>true</IgnorePath>
         </LibFiles>
-        <PCHCompile Include="inproc_latPCH1.h">
-            <BuildOrder>0</BuildOrder>
-            <PCH>true</PCH>
-        </PCHCompile>
         <CppCompile Include="..\..\..\perf\inproc_lat.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
